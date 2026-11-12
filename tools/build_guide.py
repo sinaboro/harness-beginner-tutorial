@@ -48,8 +48,6 @@ from reportlab.platypus import (
 from reportlab.platypus.tableofcontents import TableOfContents
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "docs" / "하네스_입문_1단계_교안.pdf"
-TITLE = "하네스 엔지니어링 입문 1단계"
 INSTRUCTOR = "김대철"
 REPO = "github.com/sinaboro/harness-beginner-tutorial"
 
@@ -315,7 +313,7 @@ class GuideDoc(BaseDocTemplate):
     def __init__(self, path):
         super().__init__(str(path), pagesize=A4, leftMargin=MARGIN, rightMargin=MARGIN,
                          topMargin=MARGIN + 6, bottomMargin=MARGIN, title=f"{TITLE} 학습 교안",
-                         author=INSTRUCTOR, subject="AI 에이전트에게 맡기고 통제하는 법 (생초보용 1단계)")
+                         author=INSTRUCTOR, subject=STAGES_SUBJECT)
         frame = Frame(MARGIN, MARGIN, TEXT_W, PAGE_H - 2 * MARGIN - 6, id="f",
                       leftPadding=0, rightPadding=0, topPadding=0, bottomPadding=0)
         self.addPageTemplates([PageTemplate("cover", [frame], onPage=self.cover),
@@ -369,22 +367,21 @@ class GuideDoc(BaseDocTemplate):
         c.setFont("BodyB", 11)
         c.drawCentredString(MARGIN + 4 + 17 * mm, PAGE_H - 70 * mm + 3 * mm, "학습 교안")
         c.setFont("BodyB", 34)
-        c.drawString(MARGIN + 4, PAGE_H - 96 * mm, "하네스 엔지니어링 입문 1단계")
+        c.drawString(MARGIN + 4, PAGE_H - 96 * mm, COVER["cover"][0])
         c.setFont("BodyB", 19)
-        c.drawString(MARGIN + 4, PAGE_H - 111 * mm, "AI 에이전트에게 맡기되, 규칙과 검증으로 통제하는")
-        c.drawString(MARGIN + 4, PAGE_H - 121 * mm, "생초보를 위한 첫걸음")
+        c.drawString(MARGIN + 4, PAGE_H - 111 * mm, COVER["cover"][1])
+        c.drawString(MARGIN + 4, PAGE_H - 121 * mm, COVER["cover"][2])
         c.setFont("Body", 11.5)
         c.setFillColor(colors.HexColor("#d6e2f0"))
-        c.drawString(MARGIN + 4, PAGE_H - 136 * mm,
-                     "OpenCode · OpenRouter · Python · pytest · Git")
-        c.drawString(MARGIN + 4, PAGE_H - 144 * mm, "0장 준비 + 1~6장 · Docker 없이 진행하는 입문 실습")
+        c.drawString(MARGIN + 4, PAGE_H - 136 * mm, COVER["cover"][3])
+        c.drawString(MARGIN + 4, PAGE_H - 144 * mm, COVER["cover"][4])
         c.setFillColor(NAVY)
         c.setFont("BodyB", 15)
         c.drawString(MARGIN + 4, 70 * mm, f"강사  {INSTRUCTOR}")
         c.setFont("Body", 10.5)
         c.setFillColor(colors.HexColor("#374151"))
         c.drawString(MARGIN + 4, 60 * mm, f"작성일  {date.today():%Y.%m.%d}")
-        c.drawString(MARGIN + 4, 52 * mm, "실습 환경  Windows + Python + Git + OpenCode")
+        c.drawString(MARGIN + 4, 52 * mm, COVER["cover"][5])
         c.drawString(MARGIN + 4, 44 * mm, f"실습 저장소  https://{REPO}")
         c.setFont("Body", 8.5)
         c.setFillColor(GREY)
@@ -502,47 +499,101 @@ def demote(text, title):
     return "\n".join(out)
 
 
-def manuscript():
-    """1단계 교안 원고: README → 0~6장 → 부록(템플릿과 예제)."""
+STAGES_SUBJECT = ""
+COVER = {}  # 표지 문구 (단계별로 main 에서 채운다)
+
+STAGES = {
+    "0": {
+        "out": "하네스_입문_0단계_교안.pdf",
+        "title": "하네스 엔지니어링 입문 0단계",
+        "cover": ["하네스 엔지니어링 입문 0단계", "AI 에이전트에게 맡기되, 코드 없이 배우는",
+                  "HTML·CSS 명함 페이지 한 장", "OpenCode · OpenRouter · 브라우저",
+                  "0장 준비 + 1~6장 · 프로그래밍 언어 없이 진행하는 실습",
+                  "실습 환경  Windows + Git + OpenCode (Python 불필요)"],
+        "subject": "코드 없이 배우는 하네스 원리 (HTML·CSS 명함 페이지)",
+        "lessons": "docs/stage0",
+        "intro": "# 과정 안내\n\n"
+                 "0단계는 프로그래밍 언어를 배우지 않고, AI 에이전트에게 맡기면서 하네스의 원리를 익히는 과정입니다. "
+                 "결과물은 HTML 과 CSS 로 만든 자기소개 명함 페이지 한 장입니다. "
+                 "1단계(Python 과 자동 테스트)로 넘어가기 전에 이 과정을 먼저 합니다.\n",
+        "appendix": [
+            ("templates/stage0/REQ_명함.md", "A-1. 명함 요구사항 (2장)", "markdown"),
+            ("templates/stage0/TASK_명함.md", "A-2. 명함 작업 지시서 (3장·6장)", "markdown"),
+            ("templates/stage0/AGENTS_빈칸.md", "A-3. 규칙 문서 빈칸 틀 (4장)", "markdown"),
+            ("templates/stage0/opencode.jsonc", "A-4. 권한 설정 (4장)", "jsonc"),
+            ("templates/stage0/CHECKLIST.md", "A-5. 확인 체크리스트 (5장)", "markdown"),
+        ],
+    },
+    "1": {
+        "out": "하네스_입문_1단계_교안.pdf",
+        "title": "하네스 엔지니어링 입문 1단계",
+        "cover": ["하네스 엔지니어링 입문 1단계", "AI 에이전트에게 맡기되, 규칙과 검증으로 통제하는",
+                  "생초보를 위한 첫걸음", "OpenCode · OpenRouter · Python · pytest · Git",
+                  "0장 준비 + 1~6장 · Docker 없이 진행하는 입문 실습",
+                  "실습 환경  Windows + Python + Git + OpenCode"],
+        "subject": "AI 에이전트에게 맡기고 통제하는 법 (생초보용 1단계)",
+        "lessons": "docs/stage1",
+        "intro": None,  # README.md 를 과정 안내로 쓴다
+        "appendix": [
+            ("templates/REQ_빈칸.md", "A-1. 요구사항 빈칸 틀 (2장)", "markdown"),
+            ("templates/TASK_빈칸.md", "A-2. 작업 지시서 빈칸 틀 (3장)", "markdown"),
+            ("templates/AGENTS_빈칸.md", "A-3. 규칙 문서 빈칸 틀 (4장)", "markdown"),
+            ("templates/opencode.jsonc", "A-4. 권한 설정 완성본 (4장)", "jsonc"),
+            ("templates/verify.py", "A-5. 검증 스크립트 (5장)", "python"),
+            ("templates/pre-commit", "A-6. 커밋 전 검증 훅 (5장)", "sh"),
+            ("templates/REQUIREMENTS.md", "A-7. 할 일 목록 요구사항 (6장)", "markdown"),
+            ("templates/TASK_todo.md", "A-8. 할 일 목록 작업 지시서 (6장)", "markdown"),
+            ("templates/tests/test_todo.py", "A-9. 할 일 목록 테스트 (6장)", "python"),
+            ("examples/calc/calc.py", "A-10. 계산기 예제 (4·5장)", "python"),
+            ("examples/calc/tests/test_calc.py", "A-11. 계산기 테스트 (5장)", "python"),
+        ],
+    },
+}
+
+
+def manuscript(stage):
+    """단계별 원고: 과정 안내 → 장 → 부록(템플릿과 예제)."""
+    cfg = STAGES[stage]
     parts = ["# 목차\n\n@@toc\n"]
-    parts.append(as_chapter(read("README.md"), "과정 안내"))
-    for md in sorted((ROOT / "docs" / "stage1").glob("*.md")):
-        # "다음 교시" 절은 웹에서 넘어가는 링크라서 PDF 에서는 뺀다.
-        parts.append(re.sub(r"\n## 다음 교시\n.*\Z", "\n", read(md.relative_to(ROOT)), flags=re.DOTALL))
+    if cfg["intro"] is None:
+        parts.append(as_chapter(read("README.md"), "과정 안내"))
+    else:
+        parts.append(cfg["intro"])
+    for md in sorted((ROOT / cfg["lessons"]).glob("*.md")):
+        # "다음 교시"와 "다음 장" 절은 웹에서 넘어가는 링크라서 PDF 에서는 뺀다.
+        parts.append(re.sub(r"\n## 다음 (교시|장)\n.*\Z", "\n", read(md.relative_to(ROOT)), flags=re.DOTALL))
 
     appendix = [("# 부록. 템플릿과 예제\n\n"
                 "수업에서 복사해 쓰는 파일을 그대로 실었다. 주석을 따라 읽는다.\n")]
-    for rel, title, lang in [
-        ("templates/REQ_빈칸.md", "A-1. 요구사항 빈칸 틀 (2장)", "markdown"),
-        ("templates/TASK_빈칸.md", "A-2. 작업 지시서 빈칸 틀 (3장)", "markdown"),
-        ("templates/AGENTS_빈칸.md", "A-3. 규칙 문서 빈칸 틀 (4장)", "markdown"),
-        ("templates/opencode.jsonc", "A-4. 권한 설정 완성본 (4장)", "jsonc"),
-        ("templates/verify.py", "A-5. 검증 스크립트 (5장)", "python"),
-        ("templates/pre-commit", "A-6. 커밋 전 검증 훅 (5장)", "sh"),
-        ("templates/REQUIREMENTS.md", "A-7. 할 일 목록 요구사항 (6장)", "markdown"),
-        ("templates/TASK_todo.md", "A-8. 할 일 목록 작업 지시서 (6장)", "markdown"),
-        ("templates/tests/test_todo.py", "A-9. 할 일 목록 테스트 (6장)", "python"),
-        ("examples/calc/calc.py", "A-10. 계산기 예제 (4·5장)", "python"),
-        ("examples/calc/tests/test_calc.py", "A-11. 계산기 테스트 (5장)", "python"),
-    ]:
+    for rel, title, lang in cfg["appendix"]:
         appendix.append(f"## {title}\n\n```{lang}\n{read(rel).rstrip()}\n```\n")
     parts.append("\n\n".join(appendix))
     return "\n\n".join(parts)
 
 
 def main():
-    story = [NextPageTemplate("cover"), Spacer(1, 1)] + parse(manuscript())
+    stage = sys.argv[1] if len(sys.argv) > 1 else "1"  # 0 또는 1
+    if stage not in STAGES:
+        raise SystemExit("사용법: python tools/build_guide.py [0|1] [복사할 폴더...]")
+    cfg = STAGES[stage]
+    global TITLE, OUT
+    TITLE = cfg["title"]
+    global STAGES_SUBJECT
+    STAGES_SUBJECT = cfg["subject"]
+    COVER.clear()
+    COVER.update(cfg)
+    OUT = ROOT / "docs" / cfg["out"]
+    story = [NextPageTemplate("cover"), Spacer(1, 1)] + parse(manuscript(stage))
     OUT.parent.mkdir(exist_ok=True)
     doc = GuideDoc(OUT)
     doc.multiBuild(story)
     print("완료:", OUT, f"({doc.page}쪽)")
     if MISSING:
         print("글꼴에 없는 글자:", " ".join(sorted(MISSING)), [hex(ord(c)) for c in sorted(MISSING)])
-    if len(sys.argv) > 1:  # 인자로 폴더를 주면 그곳에도 복사한다
+    for dest in sys.argv[2:]:  # 복사할 폴더가 있으면 그곳에도 저장한다
         import shutil
-        for dest in sys.argv[1:]:
-            shutil.copy(OUT, Path(dest) / OUT.name)
-            print("복사:", Path(dest) / OUT.name)
+        shutil.copy(OUT, Path(dest) / OUT.name)
+        print("복사:", Path(dest) / OUT.name)
 
 
 if __name__ == "__main__":

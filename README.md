@@ -7,8 +7,8 @@
 | | |
 |---|---|
 | 대상 | 프로그래밍을 처음 배우는 사람 (코딩 경험이 없어도 됩니다) |
-| 준비물 | Windows PC, Python, Git, OpenCode, OpenRouter 계정 |
-| 필요 없는 것 | Docker, 데이터베이스, 웹 서버 (1단계 기준) |
+| 준비물 | Windows PC, Git, OpenCode, OpenRouter 계정 (1단계부터 Python 추가) |
+| 필요 없는 것 | Docker, 데이터베이스, 웹 서버 (0·1단계 기준) |
 | 에이전트 | OpenCode (OpenRouter 모델 사용) |
 
 ---
@@ -17,11 +17,24 @@
 
 | 단계 | 대상 | 내용 | 상태 |
 |---|---|---|---|
-| **1단계** | 생초보 | 하네스의 원리를 익힌다. 요구사항, 지시서, 규칙, 권한, 검증, 저장, 작은 프로그램 하나 | **이 저장소에 있음** |
+| **0단계** | 코드를 전혀 모르는 사람 | 프로그래밍 언어 없이, HTML·CSS 명함 페이지 한 장을 AI 에게 맡기고 하네스의 원리를 익힌다 | **이 저장소에 있음** (`docs/stage0/`) |
+| **1단계** | 생초보 | Python 계산기와 할 일 목록 프로그램으로, 테스트와 저장 장치까지 익힌다 | **이 저장소에 있음** (`docs/stage1/`) |
 | 2단계 | 초급 | 파일 기반 저장, 웹 API 까지 넓혀 간다 | 준비 중 (`docs/stage2/`) |
 | 3단계 | 실무형 | 3일 과정. FastAPI, PostgreSQL, Docker 까지 연결하는 전체 실습 | 별도 저장소 [harness-crud-lab](https://github.com/sinaboro/harness-crud-lab) |
 
 ---
+
+## 0단계 교시표
+
+| 장 | 주제 | 결과물 |
+|---|---|---|
+| 0장 | 준비하기 (Git, OpenCode, OpenRouter 연결) | 설치 확인 |
+| 1장 | AI 와 하네스 체험 | 조건 없이 시킨 것과 조건을 붙인 것의 비교 |
+| 2장 | 말로 된 요구사항 쓰기 | 명함 요구사항 |
+| 3장 | 작업 지시서 쓰기 | 여섯 칸 지시서 |
+| 4장 | 규칙과 권한 세우기 | `AGENTS.md`, 권한 설정 확인 |
+| 5장 | 체크리스트로 확인하고 저장하기 | 체크리스트 확인 후 커밋 |
+| 6장 | 미니 프로젝트: 자기소개 명함 페이지 | HTML·CSS 명함 페이지, 과정 기록 |
 
 ## 1단계 교시표
 
@@ -45,23 +58,26 @@
 harness-beginner-tutorial/
 ├─ README.md                 이 문서
 ├─ docs/
+│   ├─ stage0/               0단계 교안 (0장~6장)
 │   ├─ stage1/               1단계 교안 (0장~6장)
+│   ├─ 하네스_입문_0단계_교안.pdf
 │   └─ 하네스_입문_1단계_교안.pdf
 ├─ templates/                수업에서 복사해서 쓰는 틀과 파일
-│   ├─ REQ_빈칸.md             2장: 요구사항 빈칸 틀
-│   ├─ TASK_빈칸.md            3장: 작업 지시서 빈칸 틀
-│   ├─ AGENTS_빈칸.md          4장: 규칙 문서 빈칸 틀
-│   ├─ opencode.jsonc         4장: 권한 설정 (완성본)
-│   ├─ REQUIREMENTS.md        6장: 할 일 목록 요구사항
-│   ├─ TASK_todo.md           6장: 할 일 목록 작업 지시서
-│   ├─ tests/test_todo.py     6장: 할 일 목록 테스트 (AI 가 고칠 수 없는 기준)
-│   ├─ verify.py              5장: 검증 스크립트
-│   ├─ pre-commit             5장: 커밋 전 검증 훅
-│   └─ .gitattributes         줄바꿈 설정
+│   ├─ stage0/               0단계 틀 (명함 요구사항·지시서·규칙·권한·체크리스트)
+│   ├─ REQ_빈칸.md            2장: 요구사항 빈칸 틀
+│   ├─ TASK_빈칸.md           3장: 작업 지시서 빈칸 틀
+│   ├─ AGENTS_빈칸.md         4장: 규칙 문서 빈칸 틀
+│   ├─ opencode.jsonc        4장: 권한 설정 (완성본)
+│   ├─ REQUIREMENTS.md       6장: 할 일 목록 요구사항
+│   ├─ TASK_todo.md          6장: 할 일 목록 작업 지시서
+│   ├─ tests/test_todo.py    6장: 할 일 목록 테스트 (AI 가 고칠 수 없는 기준)
+│   ├─ verify.py             5장: 검증 스크립트
+│   ├─ pre-commit            5장: 커밋 전 검증 훅
+│   └─ .gitattributes        줄바꿈 설정
 ├─ examples/
-│   └─ calc/                  4·5장에서 쓰는 계산기 예제 (multiply 가 빠진 상태)
+│   └─ calc/                 4·5장에서 쓰는 계산기 예제 (multiply 가 빠진 상태)
 └─ tools/
-    └─ build_guide.py         교안 PDF 를 만드는 스크립트
+    └─ build_guide.py        교안 PDF 를 만드는 스크립트 (인자: 0 또는 1)
 ```
 
 ---
@@ -76,7 +92,9 @@ harness-beginner-tutorial/
 git clone https://github.com/sinaboro/harness-beginner-tutorial C:\harness-beginner-tutorial
 ```
 
-교안은 PDF 로도 볼 수 있습니다. `docs/하네스_입문_1단계_교안.pdf` 를 여세요.
+교안은 PDF 로도 볼 수 있습니다. `docs/하네스_입문_0단계_교안.pdf`, `docs/하네스_입문_1단계_교안.pdf` 를 여세요.
+
+0단계부터 순서대로 합니다. 0단계는 Python 이 필요 없고, 1단계부터 Python 을 씁니다.
 
 ---
 
