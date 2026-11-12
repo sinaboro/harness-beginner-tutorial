@@ -19,10 +19,23 @@
 |---|---|---|---|
 | **0단계** | 코드를 전혀 모르는 사람 | 프로그래밍 언어 없이, HTML·CSS 명함 페이지 한 장을 AI 에게 맡기고 하네스의 원리를 익힌다 | **이 저장소에 있음** (`docs/stage0/`) |
 | **1단계** | 생초보 | Python 계산기와 할 일 목록 프로그램으로, 테스트와 저장 장치까지 익힌다 | **이 저장소에 있음** (`docs/stage1/`) |
-| 2단계 | 초급 | 파일 기반 저장, 웹 API 까지 넓혀 간다 | 준비 중 (`docs/stage2/`) |
+| **2단계** | 초급 | 도서 대출 목록 프로그램으로, 저장, 상태 규칙, 요구사항 변경, 되돌리기를 익힌다 | **이 저장소에 있음** (`docs/stage2/`) |
 | 3단계 | 실무형 | 3일 과정. FastAPI, PostgreSQL, Docker 까지 연결하는 전체 실습 | 별도 저장소 [harness-crud-lab](https://github.com/sinaboro/harness-crud-lab) |
 
 ---
+
+## 2단계 교시표
+
+| 장 | 주제 | 하네스 개념 | 결과물 |
+|---|---|---|---|
+| 준비하기 | 1단계 도구 확인, 작업 폴더 만들기 | 도구와 실행 환경 | 설치 확인 |
+| 1장 | 도서관 요구사항 쓰기 | 생활 규칙을 상태로 바꾸기 | 도서관 요구사항 |
+| 2장 | 파일에 저장하기 | 상태를 파일로 남기기 | 책 등록, JSON 저장 |
+| 3장 | 대출과 반납 | 작은 지시로 나눠 맡기기, 상태 규칙 | 대출과 반납 기능 |
+| 4장 | AI 가 만든 실수 찾기 | 테스트가 잡는 실수와 못 잡는 실수 | 빠진 약속을 추가한 테스트 |
+| 5장 | 요구사항이 바뀌었을 때 | 기준은 사람이, 구현은 AI 가 | 변경 요청서, 대출 기간 기록 |
+| 6장 | 잘못된 변경을 되돌리기 | `restore` 와 `revert` | 되돌린 기록 |
+| 7장 | 미니 프로젝트: 도서 대출 목록 | 1~6장 종합 | 완성된 프로그램, 과정 기록 |
 
 ## 0단계 교시표
 
@@ -60,10 +73,13 @@ harness-beginner-tutorial/
 ├─ docs/
 │   ├─ stage0/               0단계 교안 (0장~6장)
 │   ├─ stage1/               1단계 교안 (0장~6장)
+│   ├─ stage2/               2단계 교안 (준비하기, 1장~7장)
 │   ├─ 하네스_입문_0단계_교안.pdf
-│   └─ 하네스_입문_1단계_교안.pdf
+│   ├─ 하네스_입문_1단계_교안.pdf
+│   └─ 하네스_입문_2단계_교안.pdf
 ├─ templates/                수업에서 복사해서 쓰는 틀과 파일
 │   ├─ stage0/               0단계 틀 (명함 요구사항·지시서·규칙·권한·체크리스트)
+│   ├─ stage2/               2단계 틀 (도서관 요구사항·지시서·변경 요청서·테스트 기준)
 │   ├─ REQ_빈칸.md            2장: 요구사항 빈칸 틀
 │   ├─ TASK_빈칸.md           3장: 작업 지시서 빈칸 틀
 │   ├─ AGENTS_빈칸.md         4장: 규칙 문서 빈칸 틀
@@ -75,7 +91,8 @@ harness-beginner-tutorial/
 │   ├─ pre-commit            5장: 커밋 전 검증 훅
 │   └─ .gitattributes        줄바꿈 설정
 ├─ examples/
-│   └─ calc/                 4·5장에서 쓰는 계산기 예제 (multiply 가 빠진 상태)
+│   ├─ calc/                 1단계 4·5장에서 쓰는 계산기 예제 (multiply 가 빠진 상태)
+│   └─ stage2/               2단계 4장에서 쓰는 연습용 초안 (검증 전, 실수 포함)
 └─ tools/
     └─ build_guide.py        교안 PDF 를 만드는 스크립트 (인자: 0 또는 1)
 ```
@@ -84,7 +101,7 @@ harness-beginner-tutorial/
 
 ## 시작하기
 
-0장 `docs/stage1/00_준비하기.md` 부터 차례대로 따라 합니다.
+0단계(`docs/stage0/`), 1단계(`docs/stage1/`), 2단계(`docs/stage2/`) 순서로 따라 합니다.
 
 **[PS]** 저장소를 내려받습니다.
 
@@ -92,7 +109,7 @@ harness-beginner-tutorial/
 git clone https://github.com/sinaboro/harness-beginner-tutorial C:\harness-beginner-tutorial
 ```
 
-교안은 PDF 로도 볼 수 있습니다. `docs/하네스_입문_0단계_교안.pdf`, `docs/하네스_입문_1단계_교안.pdf` 를 여세요.
+교안은 PDF 로도 볼 수 있습니다. `docs/하네스_입문_0단계_교안.pdf`, `docs/하네스_입문_1단계_교안.pdf`, `docs/하네스_입문_2단계_교안.pdf` 를 여세요.
 
 0단계부터 순서대로 합니다. 0단계는 Python 이 필요 없고, 1단계부터 Python 을 씁니다.
 
@@ -110,4 +127,4 @@ git clone https://github.com/sinaboro/harness-beginner-tutorial C:\harness-begin
 
 - 교안의 실행 결과는 0장~6장의 명령을 실제 Windows PowerShell 에서 확인한 것을 기준으로 합니다. OpenCode 의 AI 답변은 실행할 때마다 다르므로, 교안에는 답변 내용 대신 **확인 방법**을 적었습니다.
 - 6장에는 정답 코드를 싣지 않았습니다. 학생이 테스트와 지시서를 읽고 AI 와 대화하며 맞춰 가도록 한 것입니다.
-- 2단계는 `docs/stage2/` 에 추가하고, 이 README 의 단계 안내 표를 갱신합니다.
+- 3단계(3일 과정)는 별도 저장소 [harness-crud-lab](https://github.com/sinaboro/harness-crud-lab) 에 있습니다. 2단계 7장을 마치면 그 저장소로 이어 갑니다.
