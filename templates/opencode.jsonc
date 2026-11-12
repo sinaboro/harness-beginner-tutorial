@@ -1,0 +1,50 @@
+// ============================================================
+// opencode.jsonc - AI 에이전트(OpenCode) 권한 설정  [완성본]
+//
+// 4교시에 이 파일을 프로젝트 맨 위 폴더로 복사한다.
+// 규칙(AGENTS.md)은 "부탁"이고, 이 파일은 "잠금장치"다.
+//
+// 읽는 법
+//   action   : 무엇을 하려는가  (shell = 명령 실행, edit = 파일 고치기, read = 파일 읽기)
+//   resource : 무엇에 대해서인가 (* 는 "아무 글자나")
+//   effect   : allow(그냥 허용) / ask(나에게 물어봄) / deny(금지)
+//
+// 위에서 아래로 읽으며, 여러 규칙에 걸리면 "가장 아래 규칙"이 이긴다.
+// 그래서 넓은 규칙을 위에, 예외를 아래에 쓴다.
+// ============================================================
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "openrouter/anthropic/claude-haiku-5.5",
+  "share": "disabled",
+
+  "permissions": [
+    // ---------- 1. 명령 실행 ----------
+    // 기본: 모든 명령은 실행 전에 나에게 묻는다.
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    // 검증과 읽기 명령은 묻지 않는다.
+    { "action": "shell", "resource": "python verify.py", "effect": "allow" },
+    { "action": "shell", "resource": "python -m pytest *", "effect": "allow" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git log *", "effect": "allow" },
+    // 저장과 올리기는 사람만 한다. 에이전트는 금지.
+    { "action": "shell", "resource": "git commit *", "effect": "deny" },
+    { "action": "shell", "resource": "git push *", "effect": "deny" },
+    { "action": "shell", "resource": "git reset *", "effect": "deny" },
+
+    // ---------- 2. 파일 고치기 ----------
+    // 규칙, 권한, 검증 스크립트, 테스트 기준은 에이전트가 고치지 못한다.
+    { "action": "edit", "resource": "*AGENTS.md", "effect": "deny" },
+    { "action": "edit", "resource": "*opencode.jsonc", "effect": "deny" },
+    { "action": "edit", "resource": "*verify.py", "effect": "deny" },
+    { "action": "edit", "resource": "*/tests/*", "effect": "deny" },
+    { "action": "edit", "resource": "*pre-commit", "effect": "deny" },
+
+    // ---------- 3. 비밀 값 ----------
+    { "action": "read", "resource": "*.env", "effect": "deny" },
+
+    // ---------- 4. 인터넷 ----------
+    { "action": "webfetch", "resource": "*", "effect": "ask" },
+    { "action": "websearch", "resource": "*", "effect": "ask" }
+  ]
+}

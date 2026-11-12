@@ -1,0 +1,21 @@
+#!/bin/sh
+# ============================================================
+# pre-commit - 커밋 직전에 git 이 자동으로 실행하는 스크립트
+#
+# verify.py 가 실패하면(종료 코드 1) 이 스크립트도 1 로 끝나고,
+# git 은 커밋을 만들지 않는다.
+#
+# 켜는 법 (프로젝트 폴더에서 한 번만):
+#   git config core.hooksPath .githooks
+# ============================================================
+
+echo "[pre-commit] 저장하기 전에 검증을 실행합니다..."
+
+python verify.py
+result=$?
+
+if [ $result -ne 0 ]; then
+    echo ""
+    echo "[pre-commit] 검증 실패: 커밋을 취소했습니다."
+    exit 1
+fi
