@@ -37,6 +37,12 @@
 | 6장 | 잘못된 변경을 되돌리기 | `restore` 와 `revert` | 되돌린 기록 |
 | 7장 | 미니 프로젝트: 도서 대출 목록 | 1~6장 종합 | 완성된 프로그램, 과정 기록 |
 
+## 도커로 실행하기 (선택)
+
+PC 에 Python 과 OpenCode 를 직접 설치하지 않고, 컨테이너 안에서 0·1·2단계를 할 수 있습니다.
+방법은 [`docs/docker/00_도커로_실행하기.md`](docs/docker/00_도커로_실행하기.md) 를 봅니다.
+편집은 Windows 의 VS Code 에서, 명령은 컨테이너 안에서 합니다.
+
 ## 0단계 교시표
 
 | 장 | 주제 | 결과물 |
@@ -73,6 +79,7 @@ harness-beginner-tutorial/
 ├─ docs/
 │   ├─ stage0/               0단계 교안 (0장~6장)
 │   ├─ stage1/               1단계 교안 (0장~6장)
+│   ├─ docker/               도커로 실행하기 (0·1·2단계 공통)
 │   ├─ stage2/               2단계 교안 (준비하기, 1장~7장)
 │   ├─ 하네스_입문_0단계_교안.pdf
 │   ├─ 하네스_입문_1단계_교안.pdf
@@ -90,6 +97,10 @@ harness-beginner-tutorial/
 │   ├─ verify.py             5장: 검증 스크립트
 │   ├─ pre-commit            5장: 커밋 전 검증 훅
 │   └─ .gitattributes        줄바꿈 설정
+├─ docker/                   도커 실행 환경 (0·1·2단계 공용)
+│   ├─ Dockerfile            Python, pytest, Git, OpenCode 가 든 이미지 설계도
+│   ├─ docker-compose.yml    작업 폴더와 템플릿 폴더를 연결하는 설정
+│   └─ .env.example          경로와 Git 이름 설정 견본
 ├─ examples/
 │   ├─ calc/                 1단계 4·5장에서 쓰는 계산기 예제 (multiply 가 빠진 상태)
 │   └─ stage2/               2단계 4장에서 쓰는 연습용 초안 (검증 전, 실수 포함)

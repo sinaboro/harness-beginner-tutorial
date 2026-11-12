@@ -1,0 +1,41 @@
+# ============================================================
+# docker-compose.yml - 0·1·2단계 작업 환경
+#
+# 켜기(처음 한 번, 또는 Dockerfile 을 고친 뒤):  docker compose build
+# 들어가기:                                  docker compose run --rm workspace
+# 나오기:                                    exit
+#
+# 두 폴더를 연결한다.
+#   ${HARNESS_LAB_DIR}  : 학생 작업 폴더. 컨테이너 안에서는 /workspace
+#   ${TUTORIAL_DIR}     : 교안 저장소(템플릿, 예제). 컨테이너 안에서는 /tutorial (읽기 전용)
+#
+# ${이름:-기본값} 은 .env 에 그 이름이 없으면 기본값을 쓴다는 뜻이다.
+# ============================================================
+
+services:
+  workspace:
+    build: .
+    image: harness-beginner:1
+    working_dir: /workspace
+    stdin_open: true   # 키보드 입력을 받는다
+    tty: true          # 터미널처럼 보이게 한다
+    environment:
+      # Git 이 커밋할 때 쓰는 이름과 메일. .env 에서 채운다.
+      GIT_AUTHOR_NAME: ${GIT_NAME:-student}
+      GIT_AUTHOR_EMAIL: ${GIT_EMAIL:-student@example.com}
+      GIT_COMMITTER_NAME: ${GIT_NAME:-student}
+      GIT_COMMITTER_EMAIL: ${GIT_EMAIL:-student@example.com}
+      TZ: Asia/Seoul
+    volumes:
+      # Windows 의 작업 폴더 ↔ 컨테이너의 /workspace (편집은 Windows 의 VS Code 에서 한다)
+      - ${HARNESS_LAB_DIR:-C:/harness-lab}:/workspace
+      # 교안 저장소의 템플릿과 예제 (읽기 전용, 학생이 실수로 고치지 못하게 한다)
+      - ${TUTORIAL_DIR:-C:/harness-beginner-tutorial}:/tutorial:ro
+      # OpenCode 연결 정보(/connect 로 넣은 키)와 설정을 컨테이너를 지워도 남기는 저장 공간.
+      # /root 전체가 아니라 데이터 폴더만 연결한다. (/root/.opencode 의 실행 파일을 가리지 않게)
+      - opencode-data:/root/.local/share/opencode
+      - opencode-config:/root/.config/opencode
+
+volumes:
+  opencode-data:
+  opencode-config:
